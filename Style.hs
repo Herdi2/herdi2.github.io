@@ -24,27 +24,26 @@ css =
         color white
         fontFamily ["EB Garamond", "Garamond"] [serif]
         fontSize (px 17)
+
     "a" ? do
       color linkcolor
     "a" # hover ? do
       color backgroundcolor
       backgroundColor linkcolor
 
-    ".sidebar" ? do
-      width navbarSize
+    "container" ? do
+      display flex
+      flexDirection column
+
+    "container" |> ".sidebar" ? do
+      order 1
       background navbarcolor
-      position absolute
-      padding (rem 1) (rem 1) (rem 1) (rem 1)
-      top (px 0)
-      bottom (px 0)
-      left (px 0)
       "ul" ? do
         paddingLeft (vw 0)
         listStyle none outside none
 
-    "article" ? do
-      marginLeft navbarSize
-      padding (rem 2) (rem 4) (rem 4) (rem 4)
+    "container" |> "article" ? do
+      order 2
       background backgroundcolor
 
     ".projects-grid" ? do

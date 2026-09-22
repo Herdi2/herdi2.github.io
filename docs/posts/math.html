@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Math in markdown</title>
+  <link rel="icon" type="image/svg+xml" sizes="512x512" href="../images/favicon.svg">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+  <nav class="sidebar">
+    <ul>
+      <li>
+        <h3><b>Herdi</b></h3>
+      </li>
+      <li><a href="../">about</a></li>
+      <li><a href="../projects.html">projects</a></li>
+      <li><a href="../posts.html">posts</a></li>
+    </ul>
+  </nav>
+  <article>
+    <h1>Math in markdown</h1>
+<em>2026-09-22</em>
+<p><span class="math display"><em>α</em> + 2 ≤ 3</span></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Project</span> <span class="ot">=</span> <span class="dt">Project</span> {pTitle, pDescription,<span class="ot"> pUrl ::</span> <span class="dt">String</span>,<span class="ot"> pTags ::</span> [<span class="dt">String</span>]} <span class="kw">deriving</span> (<span class="dt">Show</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">Project</span> <span class="kw">where</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  parseJSON <span class="ot">=</span> withObject <span class="st">&quot;Project&quot;</span> <span class="op">$</span> \v <span class="ot">-&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Project</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;$&gt;</span> v <span class="op">.:</span> <span class="st">&quot;title&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;*&gt;</span> v <span class="op">.:</span> <span class="st">&quot;description&quot;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;*&gt;</span> v <span class="op">.:</span> <span class="st">&quot;url&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;*&gt;</span> v <span class="op">.:</span> <span class="st">&quot;tags&quot;</span></span></code></pre></div>
+
+  </article>
+</body>
+
+</html>
