@@ -1,18 +1,19 @@
 ---
-title: Math in markdown
-date: 2026-09-22
+title: Math test in markdown
+date: 2026-09-23
 ---
 
-$$\alpha + 2 \leq 3$$
+$\delta\colon Q \times \Gamma \to Q \times \Gamma \times \{ \mathrm{L}, \mathrm{R} \},$
+
+$$
+\forall \alpha, \beta. \alpha + \beta \equiv \beta + \alpha
+$$
+
+``` python
+print('hello')
+```
 
 ```haskell
-data Project = Project {pTitle, pDescription, pUrl :: String, pTags :: [String]} deriving (Show)
-
-instance FromJSON Project where
-  parseJSON = withObject "Project" $ \v ->
-    Project
-      <$> v .: "title"
-      <*> v .: "description"
-      <*> v .: "url"
-      <*> v .: "tags"
+main :: IO ()
+main = putStrLn "hello"
 ```

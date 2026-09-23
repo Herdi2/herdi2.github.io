@@ -5,19 +5,34 @@ import Data.Aeson
 import Data.Maybe (fromJust, fromMaybe)
 import Data.Monoid (mappend)
 import Debug.Trace (traceM, traceShow)
+import GHC.IO (unsafePerformIO)
 import Hakyll
 import Text.Blaze.Html.Renderer.Pretty (renderHtml)
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as HA
+import Text.Pandoc.Highlighting
+import Text.Pandoc.Options
+
+customPandocCompiler =
+  pandocCompilerWith
+    defaultHakyllReaderOptions
+    defaultHakyllWriterOptions {writerHighlightStyle = Just codeStyle}
+
+codeStyle :: Style
+codeStyle =
+  let style = unsafePerformIO $ eitherDecodeFileStrict "css/atom-one-dark.theme"
+   in case style of
+        Left err -> error err
+        Right p -> p
 
 main :: IO ()
 main =
   do
     hakyllWith defaultConfiguration {destinationDirectory = "docs"} $ do
-      match "style.css" $ do
+      match "css/*" $ do
         route idRoute
-        compile copyFileCompiler
+        compile compressCssCompiler
 
       match "favicon.svg" $ do
         route $ setExtension "ico"
@@ -72,10 +87,11 @@ main =
 
       match "posts/*" $ do
         route $ setExtension "html"
+        let postContext = constField "style" (styleToCss codeStyle) <> defaultContext
         compile $
-          pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html" defaultContext
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
+          customPandocCompiler
+            >>= loadAndApplyTemplate "templates/post.html" postContext
+            >>= loadAndApplyTemplate "templates/default.html" postContext
             >>= relativizeUrls
 
 data Project = Project {pTitle, pDescription, pUrl :: String, pTags :: [String]} deriving (Show)
@@ -101,7 +117,10 @@ data Post = Post {poTitle, poDate, poUrl :: String}
 
 projectpage :: [Project] -> H.Html
 projectpage projects = H.docTypeHtml $ do
-  H.article $ H.div ! HA.class_ "projects-grid" $ mconcat (map mkProject projects)
+  H.article $
+    do
+      H.h1 "projects"
+      H.div ! HA.class_ "projects-grid" $ mconcat (map mkProject projects)
 
 mkProject :: Project -> H.Html
 mkProject project = do
